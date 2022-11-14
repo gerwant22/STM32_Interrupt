@@ -106,9 +106,6 @@ int main(void)
 	  HAL_UART_Transmit_IT(&huart2, Message, Lenght);
 
 
-	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-	  HAL_Delay(100);
-
 
     /* USER CODE BEGIN 3 */
 
@@ -182,7 +179,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
 	if(huart->Instance == USART2)
 	{
-
+		HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin)
 	}
 }
 
