@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,7 +44,8 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-
+uint8_t Message[16];
+uint8_t Lenght;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -100,6 +101,14 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
+	  Lenght = sprintf((char*)Message,"Hello world \n\r");
+	  HAL_UART_Transmit_IT(&huart2, Message, Lenght);
+
+
+	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+	  HAL_Delay(100);
+
 
     /* USER CODE BEGIN 3 */
 
@@ -162,18 +171,20 @@ static void MX_NVIC_Init(void)
   /* EXTI15_10_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+  /* USART2_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(USART2_IRQn);
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
-	if(GPIO_Pin = B1_Pin)
+	if(huart->Instance == USART2)
 	{
-	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+
 	}
 }
-
-
 
 /* USER CODE END 4 */
 
